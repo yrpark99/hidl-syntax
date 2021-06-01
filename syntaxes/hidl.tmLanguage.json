@@ -1,20 +1,45 @@
 {
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "HIDL",
+	"scopeName": "source.hidl",
+	"foldingStartMarker": "\\{\\s*$",
+	"foldingStopMarker": "^\\s*\\}",
 	"patterns": [
 		{
-			"include": "#keywords"
+			"include": "#comments"
 		},
 		{
 			"include": "#strings"
+		},
+		{
+			"include": "#package"
+		},
+		{
+			"include": "#import"
+		},
+		{
+			"include": "#interface"
+		},
+		{
+			"include": "#type"
+		},
+		{
+			"include": "#decls"
 		}
 	],
 	"repository": {
-		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.hidl",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
+		"comments": {
+			"patterns": [
+				{
+					"name": "comment.block.hidl",
+					"begin": "(/\\*)",
+					"end": "(\\*/)"
+				},
+				{
+					"name": "comment.line.double-slash.hidl",
+					"match": "(//).*"
+				}
+			]
 		},
 		"strings": {
 			"name": "string.quoted.double.hidl",
@@ -26,7 +51,335 @@
 					"match": "\\\\."
 				}
 			]
+		},
+		"package": {
+			"patterns": [
+				{
+					"begin": "(\\bpackage\\b)",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.hidl"
+						}
+					},
+					"end": "(;)",
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.terminator.hidl"
+						}
+					},
+					"patterns": [
+						{
+							"name": "entity.name.namespace.hidl",
+							"match": "[_a-zA-Z][\\._a-zA-Z0-9]*"
+						},
+						{
+							"name": "constant.numeric.hidl",
+							"match": "@([0-9]+\\.[0-9]+)"
+						}
+					]
+				}
+			]
+		},
+		"import": {
+			"patterns": [
+				{
+					"begin": "(\\bimport\\b)",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.hidl"
+						}
+					},
+					"patterns": [
+						{
+							"name": "entity.name.type.hidl",
+							"match": "[_a-zA-Z][\\._a-zA-Z0-9]*"
+						},
+						{
+							"name": "constant.numeric.hidl",
+							"match": "@([0-9]+\\.[0-9]+)"
+						}
+					],
+					"end": "(;)",
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.terminator.hidl"
+						}
+					}
+				}
+			]
+		},
+		"interface": {
+			"patterns": [
+				{
+					"begin": "(\\binterface\\b)\\s+([_a-zA-Z][_a-zA-Z0-9]*)\\s*(?:(extends))?\\s*(?:([_a-zA-Z]?[\\._a-zA-Z0-9]*))(?:@?([0-9]+\\.[0-9]+)*)(?:(::))?(?:([a-zA-Z0-9]*))?\\s*(\\{)",
+					"beginCaptures": {
+						"1": {
+							"name": "storage.type.interface.hidl"
+						},
+						"2": {
+							"name": "entity.name.class.hidl"
+						},
+						"3": {
+							"name": "keyword.hidl"
+						},
+						"4": {
+							"name": "entity.name.class.hidl"
+						},
+						"5": {
+							"name": "constant.numeric.hidl"
+						},
+						"6": {
+							"name": "keyword.operator.new.hidl"
+						},
+						"7": {
+							"name": "entity.name.class.hidl"
+						},
+						"8": {
+							"name": "punctuation.section.braces.begin.hidl"
+						}
+					},
+					"end": "(\\})",
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.section.braces.end.hidl"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#interface_members"
+						}
+					]
+				}
+			]
+		},
+		"type": {
+			"patterns": [
+				{
+					"name": "storage.type.hidl",
+					"match": "\\b(void|bool|string|unsigned|char|int|long|float|double|int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t)\\b"
+				},
+				{
+					"name": "keyword.other.hidl",
+					"match": "\\b(typedef)\\b"
+				},
+				{
+					"name": "meta.preprocessor.string.hidl",
+					"match": "\\b(vec|map)\\b"
+				},
+				{
+					"name": "punctuation.hidl",
+					"match": "\\[\\]"
+				},
+				{
+					"name": "meta.generic.hidl",
+					"begin": "(\\<)",
+					"end": "(\\>)",
+					"patterns": [
+						{
+							"name": "storage.type.hidl",
+							"match": "\\b(void|bool|string|unsigned|char|int|long|float|double|int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t)\\b"
+						},
+						{
+							"name": "punctuation.separator.parameter.method.hidl",
+							"match": ","
+						}
+					]
+				}
+			]
+		},
+		"decls": {
+			"patterns": [
+				{
+					"name": "meta.enum.hidl",
+					"begin": "(\\benum\\b)\\s+(?:([_a-zA-Z][_a-zA-Z0-9]*))?\\s*((?::)?)\\s*((?:int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t)?)\\s*(\\{)",
+					"beginCaptures": {
+						"1": {
+							"name": "storage.type.enum.hidl"
+						},
+						"2": {
+							"name": "entity.name.type.enum.hidl"
+						},
+						"3": {
+							"name": "keyword.operator.new.hidl"
+						},
+						"4": {
+							"name": "storage.type.enum.hidl"
+						},
+						"5": {
+							"name": "punctuation.section.braces.begin.hidl"
+						}
+					},
+					"end": "(\\})",
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.section.braces.end.hidl"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#enum_decl_body"
+						}
+					]
+				},
+				{
+					"name": "meta.struct.hidl",
+					"begin": "(\\bstruct\\b)\\s+(?:([_a-zA-Z][_a-zA-Z0-9]*))?\\s*(\\{)",
+					"beginCaptures": {
+						"1": {
+							"name": "storage.type.struct.hidl"
+						},
+						"2": {
+							"name": "entity.name.type.struct.hidl"
+						},
+						"3": {
+							"name": "punctuation.section.braces.begin.hidl"
+						}
+					},
+					"end": "(\\})",
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.section.braces.end.hidl"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#struct_decl_body"
+						}
+					]
+				}
+			]
+		},
+		"interface_members": {
+			"patterns": [
+				{
+					"include": "#comments"
+				},
+				{
+					"include": "#method_decl"
+				}
+			]
+		},
+		"method_decl": {
+			"patterns": [
+				{
+					"include": "#type"
+				},
+				{
+					"name": "entity.name.function.hidl",
+					"match": "[_a-zA-Z][_a-zA-Z0-9]*"
+				},
+				{
+					"name": "keyword.operator.assignment.hidl",
+					"match": "="
+				},
+				{
+					"name": "punctuation.terminator.hidl",
+					"match": "(;)"
+				},
+				{
+					"name": "meta.function.parameters.hidl",
+					"begin": "(\\()",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.definition.parameters.begin.hidl"
+						}
+					},
+					"end": "(\\))",
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.definition.parameters.end.hidl"
+						}
+					},
+					"patterns": [
+						{
+							"name": "punctuation.separator.parameter.method.hidl",
+							"match": ","
+						},
+						{
+							"include": "#type"
+						},
+						{
+							"name": "variable.parameter.hidl",
+							"match": "[_a-zA-Z][_a-zA-Z0-9]*"
+						}
+					]
+				}
+			]
+		},
+		"enum_decl_body": {
+			"patterns": [
+				{
+					"include": "#comments"
+				},
+				{
+					"name": "keyword.operator.assignment.hidl",
+					"match": "="
+				},
+				{
+					"include": "#const_expr"
+				},
+				{
+					"name": "variable.other.hidl",
+					"match": "[_a-zA-Z][_a-zA-Z0-9]*"
+				}
+			]
+		},
+		"const_expr": {
+			"patterns": [
+				{
+					"include": "#numeric"
+				},
+				{
+					"name": "constant.language.hidl",
+					"match": "(true|false)"
+				},
+				{
+					"name": "keyword.operator.logical.hidl",
+					"match": "([!<>]|&&|\\|\\||<=|>=|==|!=)"
+				},
+				{
+					"name": "keyword.operator.bitwise.hidl",
+					"match": "([&|~\\^]|<<|>>)"
+				},
+				{
+					"name": "keyword.operator.arithmetic.hidl",
+					"match": "([+*/%\\-])"
+				}
+			]
+		},
+		"numeric": {
+			"patterns": [
+				{
+					"name": "constant.numeric.hex.hidl",
+					"match": "(0[x\\x{007c}X][0-9a-fA-F]+[lL]?)"
+				},
+				{
+					"name": "constant.numeric.float.hidl",
+					"match": "([0-9]*\\.[0-9]+([eE][-\\x{002b}]?[0-9]+)?f?|[0-9]*\\.?[0-9]+([eE][-\\x{002b}]?[0-9]+)?f)"
+				},
+				{
+					"name": "constant.numeric.decimal.hidl",
+					"match": "([0-9]+[lL]?)"
+				}
+			]
+		},
+		"struct_decl_body": {
+			"patterns": [
+				{
+					"include": "#comments"
+				},
+				{
+					"include": "#type"
+				},
+				{
+					"name": "variable.other.hidl",
+					"match": "[_a-zA-Z][_a-zA-Z0-9]*"
+				},
+				{
+					"name": "punctuation.terminator.hidl",
+					"match": "(;)"
+				}
+			]
 		}
-	},
-	"scopeName": "source.hidl"
+	}
 }

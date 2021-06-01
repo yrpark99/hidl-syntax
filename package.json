@@ -9,17 +9,36 @@
     "categories": [
         "Programming Languages"
     ],
+    "keywords": [
+        "Android",
+        "HIDL"
+    ],
+    "publisher": "yrpark99",
+    "icon": "images/icon.png",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/yrpark99/hidl-syntax.git"
+    },
     "contributes": {
-        "languages": [{
-            "id": "hidl",
-            "aliases": ["HIDL", "hidl"],
-            "extensions": [".hal"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "hidl",
-            "scopeName": "source.hidl",
-            "path": "./syntaxes/hidl.tmLanguage.json"
-        }]
+        "languages": [
+            {
+                "id": "hidl",
+                "aliases": [
+                    "HIDL",
+                    "hidl"
+                ],
+                "extensions": [
+                    ".hal"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "hidl",
+                "scopeName": "source.hidl",
+                "path": "./syntaxes/hidl.tmLanguage.json"
+            }
+        ]
     }
 }
