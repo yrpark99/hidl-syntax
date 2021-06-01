@@ -1,0 +1,25 @@
+{
+    "name": "hidl-syntax",
+    "displayName": "HIDL-syntax",
+    "description": "Syntax highlighting for HAL Interface Definition Language",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.29.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "hidl",
+            "aliases": ["HIDL", "hidl"],
+            "extensions": [".hal"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "hidl",
+            "scopeName": "source.hidl",
+            "path": "./syntaxes/hidl.tmLanguage.json"
+        }]
+    }
+}
