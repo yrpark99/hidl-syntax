@@ -7,6 +7,9 @@ This extension show syntax highlighting for Android HIDL(HAL Interface Definitio
 - Support simple syntax highlighting for Android HIDL files which have `hal` extension.
 - Support folding function also.
 
+## Demo
+![demo](https://raw.githubusercontent.com/yrpark99/hidl-syntax/master/images/demo.png)
+
 ## Known Issues
 - Brace(curly bracket) which start in a new line is not supported.
 - May not support full HIDL keywords and grammer.
