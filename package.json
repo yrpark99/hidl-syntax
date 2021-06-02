@@ -11,7 +11,8 @@
     ],
     "keywords": [
         "Android",
-        "HIDL"
+        "HIDL",
+        "HAL"
     ],
     "publisher": "yrpark99",
     "icon": "images/icon.png",

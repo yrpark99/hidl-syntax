@@ -58,7 +58,7 @@
 		"package": {
 			"patterns": [
 				{
-					"begin": "(\\bpackage\\b)",
+					"begin": "\\b(package)\\b",
 					"beginCaptures": {
 						"1": {
 							"name": "keyword.hidl"
@@ -86,7 +86,7 @@
 		"import": {
 			"patterns": [
 				{
-					"begin": "(\\bimport\\b)",
+					"begin": "\\b(import)\\b",
 					"beginCaptures": {
 						"1": {
 							"name": "keyword.hidl"
@@ -114,7 +114,7 @@
 		"interface": {
 			"patterns": [
 				{
-					"begin": "(\\binterface\\b)\\s+([_a-zA-Z][_a-zA-Z0-9]*)\\s*(?:(extends))?\\s*(?:([_a-zA-Z]?[\\._a-zA-Z0-9]*))(?:@?([0-9]+\\.[0-9]+)*)(?:(::))?(?:([a-zA-Z0-9]*))?\\s*(\\{)",
+					"begin": "\\b(interface)\\b\\s+([_a-zA-Z][_a-zA-Z0-9]*)\\s*(?:\\b(extends)\\b)?\\s*(?:([_a-zA-Z]?[\\._a-zA-Z0-9]*))(?:@?([0-9]+\\.[0-9]+)*)(?:(::))?(?:([a-zA-Z0-9]*))?\\s*(\\{)",
 					"beginCaptures": {
 						"1": {
 							"name": "storage.type.interface.hidl"
@@ -193,7 +193,7 @@
 		"enum": {
 			"patterns": [
 				{
-					"begin": "(\\benum\\b)\\s+(?:([_a-zA-Z][_a-zA-Z0-9]*))?\\s*((?::)?)\\s*((?:int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t)?)\\s*(\\{)",
+					"begin": "\\b(enum)\\b\\s+(?:([_a-zA-Z][_a-zA-Z0-9]*))?\\s*((?::)?)\\s*((?:int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t)?)\\s*(\\{)",
 					"beginCaptures": {
 						"1": {
 							"name": "storage.type.enum.hidl"
@@ -228,7 +228,7 @@
 		"struct": {
 			"patterns": [
 				{
-					"begin": "(\\bstruct\\b|\\bunion\\b|\\bsafe_union\\b)\\s+(?:([_a-zA-Z][_a-zA-Z0-9]*))?\\s*(\\{)",
+					"begin": "\\b(struct|union|safe_union)\\b\\s+(?:([_a-zA-Z][_a-zA-Z0-9]*))?\\s*(\\{)",
 					"beginCaptures": {
 						"1": {
 							"name": "storage.type.struct.hidl"
@@ -271,7 +271,7 @@
 				},
 				{
 					"name": "keyword.control.hidl",
-					"match": "(generates)"
+					"match": "\\b(generates)\\b"
 				},
 				{
 					"name": "entity.name.function.hidl",
@@ -287,31 +287,29 @@
 				},
 				{
 					"name": "meta.function.parameters.hidl",
-					"begin": "(\\()",
-					"beginCaptures": {
+					"match": "(\\()\\s*([_a-zA-Z][_a-zA-Z0-9]*)\\s+([_a-zA-Z][_a-zA-Z0-9]*)\\s*(\\))",
+					"captures": {
 						"1": {
 							"name": "punctuation.definition.parameters.begin.hidl"
-						}
-					},
-					"end": "(\\))",
-					"endCaptures": {
-						"1": {
+						},
+						"2": {
+							"patterns": [
+								{
+									"name": "storage.type.hidl",
+									"match": "\\b(void|bool|string|unsigned|char|int|long|float|double|int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t)\\b"
+								},
+								{
+									"name": "punctuation.separator.parameter.method.hidl"
+								}
+							]
+						},
+						"3": {
+							"name": "variable.parameter.hidl"
+						},
+						"4": {
 							"name": "punctuation.definition.parameters.end.hidl"
 						}
-					},
-					"patterns": [
-						{
-							"name": "punctuation.separator.parameter.method.hidl",
-							"match": ","
-						},
-						{
-							"include": "#type"
-						},
-						{
-							"name": "variable.parameter.hidl",
-							"match": "[_a-zA-Z][_a-zA-Z0-9]*"
-						}
-					]
+					}
 				}
 			]
 		},
@@ -340,7 +338,7 @@
 				},
 				{
 					"name": "constant.language.hidl",
-					"match": "(\\btrue\\b|\\bfalse\\b)"
+					"match": "\\b(true|false)\\b"
 				},
 				{
 					"name": "keyword.operator.logical.hidl",
