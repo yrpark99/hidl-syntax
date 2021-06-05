@@ -11,13 +11,14 @@ This extension show syntax highlighting for Android HIDL(HAL Interface Definitio
 ![demo](https://raw.githubusercontent.com/yrpark99/hidl-syntax/master/images/demo.png)
 
 ## Known Issues
-- Brace(curly bracket) which start in a new line is not supported.
-- May not support full HIDL keywords and grammer.
+- May not support HIDL syntax fully. This extension only support simple HIDL syntax.
 
 ## Release Notes
 
-### 0.0.1
+### 0.0.2
+Support curly brace, comments in the middle
 
+### 0.0.1
 Initial release
 
 ## For more information
